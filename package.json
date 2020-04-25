@@ -1,0 +1,22 @@
+{
+  "name": "lim012-fe-md-links",
+  "version": "1.0.0",
+  "description": "Lee y analiza archivos en formato Markdown, para verificar los links que contengan y reportan algunas estadísticas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlmeAld/LIM012-fe-md-links.git"
+  },
+  "author": "Almendra Maravi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlmeAld/LIM012-fe-md-links/issues"
+  },
+  "homepage": "https://github.com/AlmeAld/LIM012-fe-md-links#readme",
+  "devDependencies": {
+    "jest": "^25.4.0"
+  }
+}
