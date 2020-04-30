@@ -6,6 +6,8 @@
 
 ![](./src/img/api.png) 
 
+![](./src/img/cli.png) 
+
 ## Preámbulo
 
 [Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
