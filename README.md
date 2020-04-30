@@ -2,6 +2,10 @@
 
 ![](./src/img/links.jpg)
 
+## Diagrama de Flujo
+
+![](./src/img/api.png) 
+
 ## Preámbulo
 
 [Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
