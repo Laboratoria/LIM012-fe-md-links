@@ -1,4 +1,5 @@
 // path-> modulo que proporciona utilidades para trabajar con rutas de archivos y directorios .
+// .concat() une arrays, devolviendo un nueno array-> arr1.concat(arr2)
 // fs-> modulo que proporciona una API para interacuar con el sistema de archivos
 // marked-> permite analizar markdown en HTML y leer los links
 // fetch -> modulo liviano que trae Windows.fetch API a node
@@ -34,33 +35,44 @@ const extractorFilesMd = (route) => {
     const rutaCompleta = path.join(pathAbsolute, file); // unimos el directotio y archivo(test/api.tesr.js)
     if (isValidateDirectory(rutaCompleta)) { // si en el recorrido hay un directorio
       arrFilesMd = arrFilesMd.concat(extractorFilesMd(rutaCompleta));// volver a ejecutar la funcion de rutacompleta
-    } else if (isFileMd(rutaCompleta)) { // si es archivo .md
-      arrFilesMd.push(rutaCompleta); // pushear en arrFiles todos los archivos .md
+    } else if (isValidateFile(rutaCompleta)) {
+      if (isFileMd(rutaCompleta)) { // si es archivo .md
+        arrFilesMd.push(rutaCompleta);
+      } // pushear en arrFiles todos los archivos .md
     }
   });
   return arrFilesMd; // devuelve un array de la ruta completa
 };
 // extractorFilesMd('./test');
-// console.log(extractorFilesMd('./test'));
+console.log(extractorFilesMd('./test'));
 
 // recorre el archivo .md , extraer links y guardar en un array
-// const readFile = (ruta) => fs.readFileSync(ruta, 'utf-8');
-// console.log(readFile('./test/prueba/directorio1/archivo5.md'));
 
 // recorrer el file .md y extraer las propiedades href, text y file
-const extractLinks = (filemd) => {
+const extractLinks = (file) => {
   const arrLinks = [];
-  const readFile = fs.readFileSync(filemd, 'utf-8');
+  const readFile = fs.readFileSync(file, 'utf-8');
   const mdHTML = marked(readFile);
   const dom = new JSDOM(mdHTML);
   dom.window.document.querySelectorAll('a').forEach((element) => {
     arrLinks.push({
       href: element.getAttribute('href'),
       text: element.textContent,
-      path: filemd,
+      path: file,
     });
   });
   return arrLinks;
 };
-// console.log(arrLinks);
-console.log(extractLinks('./test/prueba/directorio1/archivo1.md'));
+// console.log(extractLinks('./test/prueba/directorio1/archivo1.md'));
+
+// function que concatena la ruta completa con el array que links
+const getAllLinks = (ruta) => {
+  let allLinks = [];
+  const filePaths = extractorFilesMd(ruta);// array de rutas absolutas con files .md
+  filePaths.forEach((element) => { // por cada fileMd
+    allLinks = allLinks.concat(extractLinks(element)); // unir el array de rutas de allLinks y extractLinks -> links de un filemd
+  });
+  return allLinks;
+};
+console.log(getAllLinks('./test'));
+// getAllLinks('./test');
