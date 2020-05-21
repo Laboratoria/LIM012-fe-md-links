@@ -5,6 +5,9 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
+const jsdom = require('jsdom');
+
+const { JSDOM } = jsdom;
 
 // isAbsolute -> devuelve verdadero si es una ruta Absoluta
 const converPath = (ruta) => (path.isAbsolute(ruta) ? ruta : path.resolve(ruta));
@@ -21,26 +24,43 @@ const isFileMd = (ruta) => (path.extname(ruta) === '.md');
 // lee el directorio // fs.readdir ->Lee el contenido de un directorio.
 const readDirectory = (ruta) => fs.readdirSync(ruta, 'utf-8');
 // console.log(readDirectory('test'));
+// console.log(render);
 
-
-const extraerArchivos = (route) => {
-  // console.log(route);
-  let arrFiles = [];
-  readDirectory(route).forEach((file) => {
-    const rutaCompleta = path.join(route, file);
-    // console.log(rutaCompleta);
-    if (isValidateDirectory(rutaCompleta)) {
-      // console.log(`${rutaCompleta} es un directorio`);
-      arrFiles = arrFiles.concat(extraerArchivos(rutaCompleta));
-    } else if (isFileMd(rutaCompleta)) {
-      arrFiles.push(rutaCompleta);
+// extraer los archivos con extension .md
+const extractorFilesMd = (route) => {
+  const pathAbsolute = converPath(route);
+  let arrFilesMd = [];
+  readDirectory(pathAbsolute).forEach((file) => { // recorremos el directorio
+    const rutaCompleta = path.join(pathAbsolute, file); // unimos el directotio y archivo(test/api.tesr.js)
+    if (isValidateDirectory(rutaCompleta)) { // si en el recorrido hay un directorio
+      arrFilesMd = arrFilesMd.concat(extractorFilesMd(rutaCompleta));// volver a ejecutar la funcion de rutacompleta
+    } else if (isFileMd(rutaCompleta)) { // si es archivo .md
+      arrFilesMd.push(rutaCompleta); // pushear en arrFiles todos los archivos .md
     }
   });
-  // console.log(arrFiles);
-  return arrFiles;
+  return arrFilesMd; // devuelve un array de la ruta completa
 };
+// extractorFilesMd('./test');
+// console.log(extractorFilesMd('./test'));
 
-console.log(extraerArchivos('./test'));
+// recorre el archivo .md , extraer links y guardar en un array
+// const readFile = (ruta) => fs.readFileSync(ruta, 'utf-8');
+// console.log(readFile('./test/prueba/directorio1/archivo5.md'));
 
-
-// console.log(arrFiles);
+// recorrer el file .md y extraer las propiedades href, text y file
+const extractLinks = (filemd) => {
+  const arrLinks = [];
+  const readFile = fs.readFileSync(filemd, 'utf-8');
+  const mdHTML = marked(readFile);
+  const dom = new JSDOM(mdHTML);
+  dom.window.document.querySelectorAll('a').forEach((element) => {
+    arrLinks.push({
+      href: element.getAttribute('href'),
+      text: element.textContent,
+      path: filemd,
+    });
+  });
+  return arrLinks;
+};
+// console.log(arrLinks);
+console.log(extractLinks('./test/prueba/directorio1/archivo1.md'));
