@@ -4,10 +4,10 @@ const { mdLinks } = require('./mdLinks');
 mdLinks('./test', { validate: true })
   .then((result) => {
     console.log(result);
+  })
+  .catch((err) => {
+    console.log(err.message);
   });
-// .catch((err) => {
-//   console.log(err.message);
-// });
 
 // funcion para extraer las 3 propiedades del link en string
 const optionPath = (arrLinks) => {
@@ -40,14 +40,6 @@ const validateOption = (arrLinks) => {
   });
   return stringValidate;
 };
-
-// const path = process.argv[2];
-// const option = process.argv[3];
-// const stats = process.argv[4];
-// console.log(path);
-// console.log(path);
-// console.log(option);
-// console.log(stats);
 
 const optionCli = (path, option, stats) => {
   if ((option === '--stats' && stats === '--validate') || (option === '--validate' && stats === '--stats')) {

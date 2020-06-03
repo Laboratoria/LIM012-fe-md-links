@@ -79,7 +79,6 @@ const validateLinks = (ruta) => {
   return Promise.all(statusLinks);
 };
 
-
 module.exports = {
   converPath,
   isValidateDirectory,
