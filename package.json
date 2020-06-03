@@ -1,8 +1,11 @@
 {
-  "name": "lim012-fe-md-links",
+  "name": "mdlinks",
   "version": "1.0.0",
   "description": "Lee y analiza archivos en formato Markdown, para verificar los links que contengan y reportan algunas estadísticas.",
   "main": "index.js",
+  "bin": {
+    "md-links": "src/cli.js"
+  },
   "scripts": {
     "test": "jest --coverage",
     "eslint": "eslint --ext .js test/",

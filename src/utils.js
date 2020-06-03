@@ -65,6 +65,7 @@ const extractLinks = (file) => {
   return arrLinks;
 };
 // console.log(extractLinks('./test/prueba/directorio1/archivo1.md'));
+// console.log(extractLinks('./test'));
 
 // function que concatena la ruta completa con el array que links
 const getAllLinks = (ruta) => {
@@ -78,32 +79,22 @@ const getAllLinks = (ruta) => {
 // console.log(getAllLinks('./test'));
 // getAllLinks('./test');
 
-
-// validar los liks ok o fail
-const validateLinks = (allLinks) => {
-  const statusLinks = allLinks.map((link) => fetch(link.href)
-    .then((res) => {
-      if (res.status === 200) {
-        return {
-          status: res.status,
-          statusText: res.statusText,
-        };
-      }
-      return {
-        href: link.href,
-        text: link.text,
-        path: link.path,
-      };
-    }));
+const validateLinks = (ruta) => {
+  const arrAllLinks = getAllLinks(ruta);
+  const statusLinks = arrAllLinks.map((link) => fetch(link.href)
+    .then((res) => ({
+      href: link.href,
+      text: link.text,
+      path: link.path,
+      status: res.status,
+      statusText: res.statusText,
+    })));
   // console.log(stado);
   // Promise.all(validate(getAllLinks('./test')));
   return Promise.all(statusLinks);
 };
-// validateLinks(getAllLinks('./test')).then((res) => console.log(res));
 
-
-// console.log(validateLinks(getAllLinks('./test')));
-
+// validateLinks('./test').then((res) => console.log(res));
 
 module.exports = {
   converPath,
