@@ -13,20 +13,14 @@ const { JSDOM } = jsdom;
 
 // isAbsolute -> devuelve verdadero si es una ruta Absoluta
 const converPath = (ruta) => (path.isAbsolute(ruta) ? ruta : path.resolve(ruta));
-// console.log(converPath('./test'));
 // validar si es un archivo
 const isValidateFile = (ruta) => fs.statSync(ruta).isFile();
 // validar si es un directorio existe -> true or false
-// console.log(validateFile('./src/api.js'));
 const isValidateDirectory = (ruta) => fs.statSync(ruta).isDirectory();
-// console.log(validateDirectory('./test'));
 // validar si ess archivo con extension .md // extname obtiene la extension de una ruta de archivo
 const isFileMd = (ruta) => (path.extname(ruta) === '.md');
-// console.log(isFileMd('./test/prueba/directorio1/archivo1.md'));
 // lee el directorio // fs.readdir ->Lee el contenido de un directorio.
 const readDirectory = (ruta) => fs.readdirSync(ruta, 'utf-8');
-// console.log(readDirectory('test'));
-// console.log(render);
 
 // extraer los archivos con extension .md
 const extractorFilesMd = (route) => {
@@ -44,12 +38,8 @@ const extractorFilesMd = (route) => {
   });
   return arrFilesMd; // devuelve un array de la ruta completa
 };
-// extractorFilesMd('./test');
-// console.log(extractorFilesMd('./test'));
 
-// recorre el archivo .md , extraer links y guardar en un array
-
-// recorrer el file .md y extraer las propiedades href, text y file
+// recorre el file.md , extraer las propiedades href, text, file y guardar en un array
 const extractLinks = (file) => {
   const arrLinks = [];
   const readFile = fs.readFileSync(file, 'utf-8');
@@ -64,8 +54,6 @@ const extractLinks = (file) => {
   });
   return arrLinks;
 };
-// console.log(extractLinks('./test/prueba/directorio1/archivo1.md'));
-// console.log(extractLinks('./test'));
 
 // function que concatena la ruta completa con el array que links
 const getAllLinks = (ruta) => {
@@ -76,9 +64,8 @@ const getAllLinks = (ruta) => {
   });
   return allLinks;
 };
-// console.log(getAllLinks('./test'));
-// getAllLinks('./test');
 
+// funcion que valida los links
 const validateLinks = (ruta) => {
   const arrAllLinks = getAllLinks(ruta);
   const statusLinks = arrAllLinks.map((link) => fetch(link.href)
@@ -89,12 +76,9 @@ const validateLinks = (ruta) => {
       status: res.status,
       statusText: res.statusText,
     })));
-  // console.log(stado);
-  // Promise.all(validate(getAllLinks('./test')));
   return Promise.all(statusLinks);
 };
 
-// validateLinks('./test').then((res) => console.log(res));
 
 module.exports = {
   converPath,
