@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 const { mdLinks } = require('./mdLinks');
 
-// mdLinks('./test', { validate: true })
-//   .then((result) => {
-//     console.log(result);
-//   });
+mdLinks('./test', { validate: true })
+  .then((result) => {
+    console.log(result);
+  });
 // .catch((err) => {
 //   console.log(err.message);
 // });

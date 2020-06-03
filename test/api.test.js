@@ -44,21 +44,43 @@ describe('test para stractLinks', () => {
   });
 });
 
-
-const ouput = [
-  {
-    href: 'https://github.com/AlmeAld',
-    text: 'Alme',
-    path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo2.md',
-  },
-  {
-    href: 'https://classroom.udacity.com/courses/ud001/lessons/6987421963/concepts/74229205940923',
-    text: 'Udacity',
-    path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo3.md',
-  },
-];
-
 // mdlinks;
 describe('test para mdLinks', () => {
-  test('deberia devolver un array de objetos con las 3 propiedades', () => expect(mdLinks('./test/prueba/directorio1/directorio2/directorio3/', { validate: false })).resolves.toEqual(ouput));
+  test('deberia devolver un array de objetos con las 3 propiedades para validate:false', () => {
+    const ouput = [
+      {
+        href: 'https://github.com/AlmeAld',
+        text: 'Alme',
+        path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo2.md',
+      },
+      {
+        href: 'https://classroom.udacity.com/courses/ud001/lessons/6987421963/concepts/74229205940923',
+        text: 'Udacity',
+        path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo3.md',
+      },
+    ];
+    return expect(mdLinks('./test/prueba/directorio1/directorio2/directorio3/', { validate: false })).resolves.toEqual(ouput);
+  });
+});
+
+describe('mdlinks ', () => {
+  test('deberia retornar un array de objetos con 5 propiedades para validate:true', () => {
+    const ouput = [
+      {
+        href: 'https://github.com/AlmeAld',
+        text: 'Alme',
+        path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo2.md',
+        status: 200,
+        statusText: 'OK',
+      },
+      {
+        href: 'https://classroom.udacity.com/courses/ud001/lessons/6987421963/concepts/74229205940923',
+        text: 'Udacity',
+        path: '/mnt/d/ALME/Laboratoria/track-Fe/LIM012-fe-md-links/test/prueba/directorio1/directorio2/directorio3/archivo3.md',
+        status: 200,
+        statusText: 'OK',
+      },
+    ];
+    return expect(mdLinks('./test/prueba/directorio1/directorio2/directorio3/', { validate: true })).resolves.toEqual(ouput);
+  });
 });
